@@ -1,19 +1,21 @@
 package com.microservicio.alertas.controller;
 
-import com.microservicio.alertas.model.Alerta;
+
+import com.microservicio.alertas.dto.AlertaDTO;
 import com.microservicio.alertas.service.AlertaService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/alertas")
+@RequiredArgsConstructor
 public class AlertaController {
 
-    @Autowired
-    private AlertaService alertaService;
+    private final AlertaService alertaService;
 
     @PostMapping("/enviar")
-    public String emitirAlerta(@RequestBody Alerta alerta) {
-        return alertaService.enviarNotificacionComunidad(alerta);
+    public ResponseEntity<String> enviarAlerta(@RequestBody AlertaDTO request) {
+        return ResponseEntity.ok(alertaService.crearAlerta(request));
     }
 }
